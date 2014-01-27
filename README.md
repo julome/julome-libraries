@@ -8,4 +8,4 @@ To use the libraries, add the .c/.h source files in Atmel Studio 6, then include
 ---------------------------------------------------
 Libraries:
 
-- usart: usart.h/usart.c it communicates an AVR card to ohter device or to the computer by USB port
+- usart.h/usart.c it communicates an AVR card to ohter device or to the computer by USB port
