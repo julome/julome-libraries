@@ -32,7 +32,7 @@ put_long(variable);         // Send long data
 put_string("\n");			// Send newline character
 
 Also you should define the CPU frequency for your board and the baud
- rate as in this code as in your Terminal Window of Atmel Studio 6 project.
+rate in this code and in your Terminal Window of Atmel Studio 6 project.
 
 For further information contact with me please. julome21@gmail.com
 ************************************/
@@ -48,10 +48,14 @@ For further information contact with me please. julome21@gmail.com
 
 // Functions definitions
 void usart_init(void);			// Initialize USART
-int put_char(unsigned char);	// Tx character char
+int put_char(int);	// Tx character char
 void put_string (char*);		// Tx string data
 void put_int(int);				// Tx integer data
 void put_long(long);			// Tx long data
 void put_float(float);			// Tx float data
+
+int get_char(void);				// Rx char data
+void get_float(void);			// Rx float data
+void get_int(void);				// Rx int data
 
 #endif
