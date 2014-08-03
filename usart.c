@@ -31,8 +31,11 @@ put_string(" ");
 put_long(variable);         // Send long data
 put_string("\n");			// Send newline character
 
+void get_float(void);			// Rx float data
+void get_int(void);				// Rx int data
+
 Also you should define the CPU frequency for your board and the baud
-rate as in this code as in your Terminal Window of Atmel Studio 6 project.
+rate in this code and in your Terminal Window of Atmel Studio 6 project.
 
 For further information contact with me please. julome21@gmail.com
 
@@ -40,16 +43,19 @@ For further information contact with me please. julome21@gmail.com
 #include "avr/io.h"
 #include "stdlib.h"
 #include "usart.h"
+#include <stdio.h>
 
 // Initialize USART
 void usart_init(void){	
 	UCSR0A |= (1 << U2X0);							// Config BAUDRATE
 	UBRR0 = F_CPU / (8 * USART_BAUD) - 1;	
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);			// Format 8N1 Asynchronous	
-	UCSR0B = (1 << TXEN0);							// Enable module TX
+	UCSR0B = (1 << TXEN0) | (1 << RXEN0);							// Enable module TX adn RX
+	fdevopen((int (*)(char, FILE*))put_char, (int (*)(FILE*))get_char);		// For use with printf and scanf
+	
 }
 // TX data char through USART
-int put_char (unsigned char dato){
+int put_char (int dato){
 	while ((UCSR0A & (1 << UDRE0)) == 0);	// Wait for empty buffer
 	UDR0 = dato;
 	return dato;
@@ -63,19 +69,57 @@ void put_string(char *s){
 }
 // TX integer variable through USART
 void put_int (int dato){
-	char s[7];
+	char s[20];
 	itoa(dato,s,10);	// Converting data integer to ASCII
 	put_string(s);
 }
 // TX long variable through USART
 void put_long (long dato){
-	char s[14];
+	char s[20];
 	ltoa(dato,s,10);	// Converting data integer to ASCII
 	put_string(s);
 }
 // Tx float variable through USART
 void put_float (float dato){
-	char s[15];
-	dtostrf(dato,8,5,s);	// Converting data integer to ASCII
+	char s[20];
+	dtostrf(dato,8,3,s);	// Converting data integer to ASCII. 3 Decimals
 	put_string(s);
 }
+// Rx data char through USART 
+int get_char(void){
+	int dato;	
+	while ((UCSR0A & (1<<RXC0)) == 0 );		// Wait for data in buffer	
+	dato = UDR0;
+	return dato;
+}
+
+// Rx string  through USART
+void get_float(void){
+	char k[20];
+	int i;
+	while (1) {
+		k[i] = get_char();
+		if (k[i] == '\n') break;
+		i++;		
+	}	
+	put_float(atof(k));
+	put_string("\n");		
+}
+
+// Rx string  through USART
+void get_int(void){
+	char k[20];
+	int i;
+	while (1) {
+		k[i] = get_char();
+		if (k[i] == '\n') break;
+		i++;
+	}
+	put_int(atoi(k));
+	put_string("\n");
+}
+
+
+
+	
+
