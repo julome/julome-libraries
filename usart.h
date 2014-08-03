@@ -29,7 +29,7 @@ put_string(" ");            // Send character space
 put_int(variable);          // Send int data
 put_string(" ");
 put_long(variable);         // Send long data
-put_string("\n");			     // Send newline character
+put_string("\n");			  // Send newline character
 
 void get_float(void);			  // Rx float data
 void get_int(void);				   // Rx int data
