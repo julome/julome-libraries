@@ -43,7 +43,7 @@ For further information contact with me please. julome21@gmail.com
 #include "avr/io.h"
 #include "stdlib.h"
 #include "usart.h"
-#include <stdio.h>
+//#include <stdio.h>								// For use with printf and scanf
 
 // Initialize USART
 void usart_init(void){	
@@ -51,7 +51,7 @@ void usart_init(void){
 	UBRR0 = F_CPU / (8 * USART_BAUD) - 1;	
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);			// Format 8N1 Asynchronous	
 	UCSR0B = (1 << TXEN0) | (1 << RXEN0);							// Enable module TX adn RX
-	fdevopen((int (*)(char, FILE*))put_char, (int (*)(FILE*))get_char);		// For use with printf and scanf
+	//fdevopen((int (*)(char, FILE*))put_char, (int (*)(FILE*))get_char);		// For use with printf and scanf
 	
 }
 // TX data char through USART
@@ -94,16 +94,19 @@ int get_char(void){
 }
 
 // Rx string  through USART
-void get_float(void){
+float get_float(void){
 	char k[20];
+	float f;
 	int i;
 	while (1) {
 		k[i] = get_char();
 		if (k[i] == '\n') break;
 		i++;		
 	}	
-	put_float(atof(k));
-	put_string("\n");		
+	f = atof(k);
+	put_float(f);		// Echo
+	put_string("\n");
+	return f;		
 }
 
 // Rx string  through USART
@@ -118,7 +121,6 @@ void get_int(void){
 	put_int(atoi(k));
 	put_string("\n");
 }
-
 
 
 	
