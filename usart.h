@@ -29,10 +29,10 @@ put_string(" ");            // Send character space
 put_int(variable);          // Send int data
 put_string(" ");
 put_long(variable);         // Send long data
-put_string("\n");           // Send newline character
+put_string("\n");			// Send newline character
 
-void get_float(void);       // Rx float data
-void get_int(void);         // Rx int data
+void get_float(void);			// Rx float data
+void get_int(void);				// Rx int data
 
 Also you should define the CPU frequency for your board and the baud
 rate in this code and in your Terminal Window of Atmel Studio 6 project.
@@ -58,7 +58,7 @@ void put_long(long);			// Tx long data
 void put_float(float);			// Tx float data
 
 int get_char(void);				// Rx char data
-void get_float(void);			// Rx float data
+float get_float(void);			// Rx float data
 void get_int(void);				// Rx int data
 
 #endif
